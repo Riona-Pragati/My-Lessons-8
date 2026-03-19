@@ -1,0 +1,62 @@
+
+Last login: Thu Mar 19 11:16:33 on ttys000
+anantha-6459@anantha-6459 ~ % sqlite3
+SQLite version 3.51.0 2025-06-12 13:14:41
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .open Employee.db
+sqlite> CREATE TABLE Employee(Name TEXT, ID INTEGER, Salary INTEGER, Age INTEGER, Country TEXT);
+sqlite> INSERT INTO Employee VALUES('Riona', 640, 2000, 15, 'Canada');
+sqlite> INSERT INTO Employee VALUES('Rini', 642, 2250, 16, 'Australia');
+sqlite> INSERT INTO Employee VALUES('Prisha', 644, 2250, 17, 'Singapore');
+sqlite> INSERT INTO Employee VALUES('Pragathi', 646, 2250, 18, 'India');
+sqlite> INSERT INTO Employee VALUES('Lakshita', 648, 2250, 15, 'Malaysia');
+sqlite> INSERT INTO Employee VALUES('Shiny', 660, 2250, 16, 'US');
+sqlite> INSERT INTO Employee VALUES('Renuka', 662, 2250, 17, 'Netherlands');
+sqlite> INSERT INTO Employee VALUES('Mark', 664, 2250, 18, 'New Zealand');
+sqlite> INSERT INTO Employee VALUES('Prasanna', 668, 2250, 15, 'Thailand');
+sqlite> INSERT INTO Employee VALUES('Nithila', 680, 2250, 16, 'Denmark');
+sqlite> SELECT * FROM Employee;
+Riona|640|2000|15|Canada
+Rini|642|2250|16|Australia
+Prisha|644|2250|17|Singapore
+Pragathi|646|2250|18|India
+Lakshita|648|2250|15|Malaysia
+Shiny|660|2250|16|US
+Renuka|662|2250|17|Netherlands
+Mark|664|2250|18|New Zealand
+Prasanna|668|2250|15|Thailand
+Nithila|680|2250|16|Denmark
+sqlite> INSERT INTO Employee VALUES('Anula', 680, 2250, 17, 'Canada');
+sqlite> INSERT INTO Employee VALUES('Varunika', 680, 2250, 18, 'Australia');
+sqlite> INSERT INTO Employee VALUES('Dinesh', 680, 2250, 15, 'Singapore');
+sqlite> INSERT INTO Employee VALUES('Akshara', 680, 2250, 16, 'India');
+sqlite> INSERT INTO Employee VALUES('Abinaya', 680, 2250, 17, 'Malaysia');
+sqlite> INSERT INTO Employee VALUES('Anantha', 680, 2250, 18, 'US');
+sqlite> INSERT INTO Employee VALUES('Renu', 680, 2250, 15, 'Netherlands');
+sqlite> INSERT INTO Employee VALUES('Akshaya', 680, 2250, 16, 'New Zealand');
+sqlite> INSERT INTO Employee VALUES('Arun', 680, 2250, 17, 'Thailand');
+sqlite> INSERT INTO Employee VALUES('Udhay', 680, 2250, 18, 'Denmark');
+sqlite> SELECT * FROM Employee;
+Riona|640|2000|15|Canada
+Rini|642|2250|16|Australia
+Prisha|644|2250|17|Singapore
+Pragathi|646|2250|18|India
+Lakshita|648|2250|15|Malaysia
+Shiny|660|2250|16|US
+Renuka|662|2250|17|Netherlands
+Mark|664|2250|18|New Zealand
+Prasanna|668|2250|15|Thailand
+Nithila|680|2250|16|Denmark
+Anula|680|2250|17|Canada
+Varunika|680|2250|18|Australia
+Dinesh|680|2250|15|Singapore
+Akshara|680|2250|16|India
+Abinaya|680|2250|17|Malaysia
+Anantha|680|2250|18|US
+Renu|680|2250|15|Netherlands
+Akshaya|680|2250|16|New Zealand
+Arun|680|2250|17|Thailand
+Udhay|680|2250|18|Denmark
+sqlite> 
