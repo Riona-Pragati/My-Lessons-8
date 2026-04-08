@@ -1,0 +1,12 @@
+SQLite version 3.51.0 2025-06-12 13:14:41
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .open Favourites.db
+sqlite> CREATE TABLE Favourites(Color TEXT, Food TEXT, Number INTEGER, Hobby TEXT);
+sqlite> INSERT INTO Favourites VALUES('Lavender', 'Pasta', 64, 'Drawing');
+sqlite> INSERT INTO Favourites VALUES('Lavender', 'Pizza', 33, 'Fidgetting');
+sqlite> SELECT * FROM Favourites;
+Lavender|Pasta|64|Drawing
+Lavender|Pizza|33|Fidgetting
+sqlite>
