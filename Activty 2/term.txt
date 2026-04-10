@@ -1,0 +1,36 @@
+Last login: Thu Apr  2 19:59:59 on ttys000
+anantha-6459@anantha-6459 ~ % sqlite3
+SQLite version 3.51.0 2025-06-12 13:14:41
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .open Products.db
+sqlite> CREATE TABLE Products(Product_ID INTEGER, Product_Name TEXT, Supplier_ID INTEGER, Category_ID INTEGER, Unit_Text TEXT , Price_Real INTEGER);
+sqlite> INSERT INTO Products VALUES('1', Chais, '1', '1', 10 Boxes*20 Bags, 18);
+Parse error: near "Boxes": syntax error
+  ERT INTO Products VALUES('1', Chais, '1', '1', 10 Boxes*20 Bags, 18);
+                                      error here ---^
+sqlite> INSERT INTO Products VALUES('1', Chais, '1', '1', '10 Boxes*20 Bags', 18);
+Parse error: no such column: Chais
+  INSERT INTO Products VALUES('1', Chais, '1', '1', '10 Boxes*20 Bags', 18);
+                     error here ---^
+sqlite> INSERT INTO Products VALUES(1, 'Chais', 1, 1, '10 Boxes*20 Bags', 18);
+sqlite> INSERT INTO Products VALUES(2, 'Chang', 1, 1, '24-12 Oz Bottles', 19);
+sqlite> INSERT INTO Products VALUES(3, 'Antiseed Syrup', 1, 2, '12-550 ml Bottles', 10);
+sqlite> INSERT INTO Products VALUES(4, ' Chef Anton Seasoning', 2, 2, '40-6 Oz Jars', 22);
+sqlite> INSERT INTO Products VALUES(5, 'Chef Anton Mix', 2, 2, '36 Boxes', 21.35);
+sqlite> SELECT COUNT(Product_ID) AS Product_Count FROM Products;
+5
+sqlite> SLECT AVG(Price_Real) AS Average_Price FROM Products;
+Parse error: near "SLECT": syntax error
+  SLECT AVG(Price_Real) AS Average_Price FROM Products;
+  ^--- error here
+sqlite> SELECT AVG(Price_Real AS Average_Price FROM Products;
+Parse error: near "AS": syntax error
+  SELECT AVG(Price_Real AS Average_Price FROM Products;
+                        ^--- error here
+sqlite> SELECT AVG(Price_Real) AS Average_Price FROM Products;
+18.07
+sqlite> SELECT SUM(Price_Real) AS Total_Price FROM Products;
+90.35
+sqlite> 
