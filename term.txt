@@ -1,12 +1,107 @@
+Last login: Sun Apr 12 11:27:38 on ttys000
+anantha-6459@anantha-6459 ~ % sqlite3
 SQLite version 3.51.0 2025-06-12 13:14:41
 Enter ".help" for usage hints.
 Connected to a transient in-memory database.
 Use ".open FILENAME" to reopen on a persistent database.
-sqlite> .open Favourites.db
-sqlite> CREATE TABLE Favourites(Color TEXT, Food TEXT, Number INTEGER, Hobby TEXT);
-sqlite> INSERT INTO Favourites VALUES('Lavender', 'Pasta', 64, 'Drawing');
-sqlite> INSERT INTO Favourites VALUES('Lavender', 'Pizza', 33, 'Fidgetting');
-sqlite> SELECT * FROM Favourites;
-Lavender|Pasta|64|Drawing
-Lavender|Pizza|33|Fidgetting
-sqlite>
+sqlite> .open Salesman.db
+sqlite> CREATE TABLE Salesman(Salesman_ID INTEGER, Name TEXT, City TEXT, Comission INTEGER);
+sqlite> INSERT INTO Salesman VALUES (5001, 'James Hoog', 'New York', 0.15);
+sqlite> INSERT INTO Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13';
+'  ...> INSERT INTO Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13');
+Parse error: near "';
+INSERT INTO Salesman VALUES (5002, '": syntax error
+  Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13'; INSERT INTO Salesman VALU
+                                      error here ---^
+sqlite> INSERT INTO Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13');
+'  ...> INSERT INTO Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13');
+Parse error: near "');
+INSERT INTO Salesman VALUES (5002, '": syntax error
+  Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13'); INSERT INTO Salesman VAL
+                                      error here ---^
+sqlite> INSERT INTO Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13);
+sqlite> INSERT INTO Salesman VALUES(5005, 'Pit Alex', 'London', 0.11);
+sqlite> INSERT INTO Salesman VALUES(5006, 'Mc Lyon', 'Paris', 0.14);
+sqlite> INSERT INTO Salesman VALUES(5007, 'Paul Adam', 'Rome', 0.13);
+sqlite> INSERT INTO Salesman VALUES5003, 'Lauson Hen', 'San Jose', 0.12);
+Parse error: near "VALUES5003": syntax error
+  INSERT INTO Salesman VALUES5003, 'Lauson Hen', 'San Jose', 0.12);
+                       ^--- error here
+sqlite> INSERT INTO Salesman VALUES(5003, 'Lauson Hen', 'San Jose', 0.12);
+sqlite> CREATE TABLE Customer(Customer_ID INTEGER, Cust_Name TEXT, City TEXT, Grade INTEGER, Salesman_ID INTEGER);
+sqlite> INSERT INTO Customer VALUES(3002, 'Nick Rimando', 'New York', 100, 5001);
+sqlite> INSERT INTO Customer VALUES(3007, 'Brad Davis', 'New York', 100, 5001);
+sqlite> INSERT INTO Customer VALUES(3005, 'Graham Zusi', 'California', 200, 5002);
+sqlite> INSERT INTO Customer VALUES(3008, 'Julian Green', 'London', 300, 5002);
+sqlite> INSERT INTO Customer VALUES(3004, 'Fabian Johnson', 'Paris', 300, 5006);
+sqlite> CREATE TABLE Orders(Ord_no TEXT, Purch_Amt TEXT, Ord_Date TEXT, Customer_ID TEXT, Salesman-ID TEXT);
+Parse error: near "-": syntax error
+  mt TEXT, Ord_Date TEXT, Customer_ID TEXT, Salesman-ID TEXT);
+                                      error here ---^
+sqlite> CREATE TABLE Orders(Ord_no TEXT, Purch_Amt TEXT, Ord_Date TEXT, Customer_ID TEXT, Salesman_ID TEXT);
+sqlite> INSERT INTO Orders VALUES('70001', '150.5', '2012-10-05', '3005', '5002');
+sqlite> INSERT INTO Orders VALUES('70009', '270.65', '2012-09-10', '3001', '5001');
+sqlite> INSERT INTO Orders VALUES('70002', '65.26', '2012-10-05', '3002', '5003');
+sqlite> INSERT INTO Orders VALUES('70004', '110.5', '2012-08-17', '3009', '5007');
+sqlite> INSERT INTO Orders VALUES('70007', '948.5', '2012-09-10', '3005', '5005');
+sqlite> 
+sqlite> SELECT Customer.Cust_Name, Salesman.Name, Salesman.City FROM Customer JOIN Salesman ON Customer.Salesman_ID = Salesman.Salesman_ID;
+Nick Rimando|James Hoog|New York
+Brad Davis|James Hoog|New York
+Graham Zusi|Nail Knite|Paris
+Julian Green|Nail Knite|Paris
+Fabian Johnson|Mc Lyon|Paris
+sqlite> SELECT Customer.Cust_Name, Salesman.Name FROM Customer JOIN Salesman ON Customer.Salesman_ID = Salesman.Salesman_ID;
+Nick Rimando|James Hoog
+Brad Davis|James Hoog
+Graham Zusi|Nail Knite
+Julian Green|Nail Knite
+Fabian Johnson|Mc Lyon
+sqlite> SELECT Orders.ord_no, Customer.cust_name, Orders.customer_id, Orders.Salesman_id
+   ...> FROM Orders
+   ...> JOIN Customer ON Orders.customer_id = Customer.customer_id
+   ...> JOIN Salesman ON Orders.Salesman_id = Salesman.Salesman_id
+   ...> WHERE Customer.city <> Salesman.city;
+70001|Graham Zusi|3005|5002
+70002|Nick Rimando|3002|5003
+70007|Graham Zusi|3005|5005
+sqlite> SELECT Orders.ord_no, Customer.cust_name
+   ...> FROM Orders
+   ...> JOIN Customer ON Orders.customer_id = Customer.customer_id;
+70001|Graham Zusi
+70002|Nick Rimando
+70007|Graham Zusi
+sqlite> SELECT Customer.cust_name AS "Customer", Customer.grade AS "Grade"
+   ...> FROM Orders
+   ...> JOIN Salesman ON Orders.Salesman_id = Salesman.Salesman_id
+   ...> JOIN Customer ON Orders.customer_id = Customer.customer_id
+   ...> WHERE Customer.grade IS NOT NULL;
+Graham Zusi|200
+Nick Rimando|100
+Graham Zusi|200
+sqlite> SELECT Customer.cust_name AS "Customer",
+   ...> Customer.city AS "City",
+   ...> Salesman.name AS "Salesman",
+   ...> Salesman.commission
+   ...> FROM Customer
+   ...> JOIN Salesman ON Customer.Salesman_id = Salesman.Salesman_id
+   ...> WHERE Salesman.commission BETWEEN 0.12 AND 0.14;
+Parse error: no such column: Salesman.commission
+  omer.city AS "City", Salesman.name AS "Salesman", Salesman.commission FROM Cus
+                                      error here ---^
+sqlite> SELECT Orders.ord_no, Customer.cust_name, Salesman.commission AS "Commission%",
+   ...> Orders.purch_amt * Salesman.commission AS "Commission"
+   ...> FROM Orders
+   ...> JOIN Salesman ON Orders.Salesman_id = Salesman.Salesman_id
+   ...> JOIN Customer ON Orders.customer_id = Customer.customer_id
+   ...> WHERE Customer.grade >= 200;
+Parse error: no such column: Salesman.commission
+  SELECT Orders.ord_no, Customer.cust_name, Salesman.commission AS "Commission%"
+                              error here ---^
+sqlite> SELECT *
+   ...> FROM Customer
+   ...> JOIN Orders ON Customer.customer_id = Orders.customer_id
+   ...> WHERE Orders.ord_date = '2012-10-05';
+3005|Graham Zusi|California|200|5002|70001|150.5|2012-10-05|3005|5002
+3002|Nick Rimando|New York|100|5001|70002|65.26|2012-10-05|3002|5003
+sqlite> 
