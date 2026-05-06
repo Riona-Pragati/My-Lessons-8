@@ -1,0 +1,106 @@
+Last login: Sun Apr 12 11:27:38 on ttys000
+anantha-6459@anantha-6459 ~ % sqlite3
+SQLite version 3.51.0 2025-06-12 13:14:41
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+
+sqlite> .open Agency.db
+
+sqlite> CREATE TABLE Agents(Agent_ID INTEGER, Agent_Name TEXT, Region TEXT, Rate REAL);
+
+sqlite> INSERT INTO Agents VALUES(7001, 'Alice Brown', 'Toronto', 0.15);
+sqlite> INSERT INTO Agents VALUES(7002, 'Brian Stone', 'Paris', 0.13);
+sqlite> INSERT INTO Agents VALUES(7003, 'Carlos Vega', 'London', 0.11);
+sqlite> INSERT INTO Agents VALUES(7004, 'Diana Cruz', 'Rome', 0.14);
+sqlite> INSERT INTO Agents VALUES(7005, 'Evan Miles', 'New York', 0.12);
+
+sqlite> CREATE TABLE Clients(Client_ID INTEGER, Client_Name TEXT, City TEXT, Level INTEGER, Agent_ID INTEGER);
+
+sqlite> INSERT INTO Clients VALUES(4001, 'Tom Harris', 'Toronto', 100, 7001);
+sqlite> INSERT INTO Clients VALUES(4002, 'Liam Scott', 'Toronto', 100, 7001);
+sqlite> INSERT INTO Clients VALUES(4003, 'Emma Clark', 'California', 200, 7002);
+sqlite> INSERT INTO Clients VALUES(4004, 'Sophia Reed', 'London', 300, 7002);
+sqlite> INSERT INTO Clients VALUES(4005, 'Mia Turner', 'Paris', 300, 7004);
+
+sqlite> CREATE TABLE Purchases(Purchase_No TEXT, Amount REAL, Purchase_Date TEXT, Client_ID INTEGER, Agent_ID INTEGER);
+
+sqlite> INSERT INTO Purchases VALUES('90001', 150.5, '2022-10-05', 4003, 7002);
+sqlite> INSERT INTO Purchases VALUES('90002', 270.65, '2022-09-10', 4001, 7001);
+sqlite> INSERT INTO Purchases VALUES('90003', 65.26, '2022-10-05', 4002, 7003);
+sqlite> INSERT INTO Purchases VALUES('90004', 110.5, '2022-08-17', 4005, 7004);
+sqlite> INSERT INTO Purchases VALUES('90005', 948.5, '2022-09-10', 4003, 7003);
+
+sqlite> SELECT Clients.Client_Name, Agents.Agent_Name, Agents.Region
+   ...> FROM Clients
+   ...> JOIN Agents ON Clients.Agent_ID = Agents.Agent_ID;
+Tom Harris|Alice Brown|Toronto
+Liam Scott|Alice Brown|Toronto
+Emma Clark|Brian Stone|Paris
+Sophia Reed|Brian Stone|Paris
+Mia Turner|Diana Cruz|Rome
+
+sqlite> SELECT Clients.Client_Name, Agents.Agent_Name
+   ...> FROM Clients
+   ...> JOIN Agents ON Clients.Agent_ID = Agents.Agent_ID;
+Tom Harris|Alice Brown
+Liam Scott|Alice Brown
+Emma Clark|Brian Stone
+Sophia Reed|Brian Stone
+Mia Turner|Diana Cruz
+
+sqlite> SELECT Purchases.Purchase_No, Clients.Client_Name, Purchases.Client_ID, Purchases.Agent_ID
+   ...> FROM Purchases
+   ...> JOIN Clients ON Purchases.Client_ID = Clients.Client_ID
+   ...> JOIN Agents ON Purchases.Agent_ID = Agents.Agent_ID
+   ...> WHERE Clients.City <> Agents.Region;
+90001|Emma Clark|4003|7002
+90003|Liam Scott|4002|7003
+90005|Emma Clark|4003|7003
+
+sqlite> SELECT Purchases.Purchase_No, Clients.Client_Name
+   ...> FROM Purchases
+   ...> JOIN Clients ON Purchases.Client_ID = Clients.Client_ID;
+90001|Emma Clark
+90002|Tom Harris
+90003|Liam Scott
+90004|Mia Turner
+90005|Emma Clark
+
+sqlite> SELECT Clients.Client_Name AS "Client", Clients.Level AS "Level"
+   ...> FROM Purchases
+   ...> JOIN Agents ON Purchases.Agent_ID = Agents.Agent_ID
+   ...> JOIN Clients ON Purchases.Client_ID = Clients.Client_ID
+   ...> WHERE Clients.Level >= 200;
+Emma Clark|200
+Sophia Reed|300
+Emma Clark|200
+
+sqlite> SELECT Clients.Client_Name AS "Client",
+   ...> Clients.City AS "City",
+   ...> Agents.Agent_Name AS "Agent",
+   ...> Agents.Rate
+   ...> FROM Clients
+   ...> JOIN Agents ON Clients.Agent_ID = Agents.Agent_ID
+   ...> WHERE Agents.Rate BETWEEN 0.12 AND 0.14;
+Emma Clark|California|Brian Stone|0.13
+Sophia Reed|London|Brian Stone|0.13
+Mia Turner|Paris|Diana Cruz|0.14
+
+sqlite> SELECT Purchases.Purchase_No, Clients.Client_Name, Agents.Rate AS "Rate%",
+   ...> Purchases.Amount * Agents.Rate AS "Commission"
+   ...> FROM Purchases
+   ...> JOIN Agents ON Purchases.Agent_ID = Agents.Agent_ID
+   ...> JOIN Clients ON Purchases.Client_ID = Clients.Client_ID
+   ...> WHERE Clients.Level >= 200;
+90001|Emma Clark|0.13|19.565
+90004|Mia Turner|0.14|15.47
+90005|Emma Clark|0.11|104.335
+
+sqlite> SELECT *
+   ...> FROM Clients
+   ...> JOIN Purchases ON Clients.Client_ID = Purchases.Client_ID
+   ...> WHERE Purchases.Purchase_Date = '2022-10-05';
+4003|Emma Clark|California|200|7002|90001|150.5|2022-10-05|4003|7002
+4002|Liam Scott|Toronto|100|7001|90003|65.26|2022-10-05|4002|7003
+sqlite>
